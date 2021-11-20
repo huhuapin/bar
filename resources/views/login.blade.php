@@ -18,10 +18,20 @@
     <meta http-equiv="refresh" content="0;ie.html" />
     <![endif]-->
     <script>if(window.top !== window.self){ window.top.location = window.location;}</script>
+    <style>
+        .alert-danger {
+            text-align: center;
+        }
+    </style>
 </head>
 
 <body class="gray-bg">
-
+@if(session('error'))
+    <div class="alert alert-danger alert-dismissable">
+        <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+        {{session('error')}}
+    </div>
+@endif
     <div class="middle-box text-center loginscreen  animated fadeInDown">
         <div>
             <div>

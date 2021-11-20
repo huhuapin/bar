@@ -20,17 +20,16 @@ class LoginController extends Controller
             session(['user'=>$user]);
             return redirect()->route('index');
         }else {
-            $user = User::where(['tel'=>$request->tel])->first();
-            $user->password = bcrypt($request->password);
-            $user->save();
             if(\Auth::attempt(['tel'=>$request->tel,'password'=>$request->password]))
             {
                 //此数组会和对应模型的数据库进行匹配,匹配正确会进入到此分支语句中
                 return redirect('/');
             }else{
-                dd("用户名密码错误");
+                $request->session()->flash('error',"用户名密码错误");
+                return redirect('login');
             }
         }
+
     }
     public function index(Request $request){
         if (!Auth::check()) {
