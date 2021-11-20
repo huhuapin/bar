@@ -18,6 +18,7 @@ class CreateDepositTable extends Migration
             $table->unsignedInteger('member_id');
             $table->double('money');
             $table->integer('type');
+            $table->string('remark')->nullable();
             $table->timestamps();
 
             $table->foreign('member_id')->references('id')->on('member');

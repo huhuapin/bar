@@ -133,7 +133,9 @@
         <mt-cell title="新开会员" to="{{url('member/0/edit')}}" is-link value="+">
         </mt-cell>
         <div class="logout">
-            <mt-button size="large" type="danger" @click.native="handleSubmit">提交</mt-button>
+            <a href="{{url('logout')}}">
+                <mt-button size="large" type="danger">注销</mt-button>
+            </a>
         </div>
     </div>
 </body>

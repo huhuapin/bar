@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Discount;
+use App\Type;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class DiscountController extends Controller
+class TypeController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,9 +16,9 @@ class DiscountController extends Controller
     public function index()
     {
         //
-        $discount = Discount::orderBy('discount','DESC')->get();
-        return view('admin/discount/list')->with([
-            'discounts'=>$discount
+        $types = Type::all();
+        return view('admin/type/list')->with([
+            'types'=>$types
         ]);
     }
 
@@ -30,7 +30,7 @@ class DiscountController extends Controller
     public function create()
     {
         //
-        return view('admin/discount/add');
+        return view('admin/type/add');
     }
 
     /**
@@ -42,12 +42,11 @@ class DiscountController extends Controller
     public function store(Request $request)
     {
         //
-        Discount::create([
-            'discount'=>$request->discount,
-            'description'=>$request->description
-        ]);
-        $request->session()->flash('success','添加折扣成功！');
-        return redirect('discount');
+        $type = new Type();
+        $type->name = $request->name;
+        $type->save();
+        $request->session()->flash('success','添加商品类型成功！');
+        return redirect('type');
     }
 
     /**
@@ -56,22 +55,24 @@ class DiscountController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Type $type)
     {
         //
+
+
     }
 
     /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Foundation\Application|\Illuminate\Http\Response|\Illuminate\View\View
      */
-    public function edit(Discount $discount)
+    public function edit(Type $type)
     {
         //
-        return view('admin/discount/edit')->with([
-            'discount'=>$discount
+        return view('admin/type/edit')->with([
+            'type'=>$type
         ]);
 
     }
@@ -83,14 +84,13 @@ class DiscountController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Discount $discount)
+    public function update(Request $request, Type $type)
     {
         //
-        $discount->discount = $request->discount;
-        $discount->description = $request->description;
-        $discount->save();
-        $request->session()->flash('success','修改折扣成功！');
-        return redirect('discount');
+        $type->name = $request->name;
+        $type->save();
+        $request->session()->flash('success','修改商品类型成功！');
+        return redirect('type');
     }
 
     /**
@@ -99,11 +99,11 @@ class DiscountController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Discount $discount,Request $request)
+    public function destroy(Type $type,Request $request)
     {
-        //
-        $discount->delete();
-        $request->session()->flash('success','删除折扣成功！');
-        return redirect('discount');
+        //\
+        $type->delete();
+        $request->session()->flash('success',"删除商品类型【{$type->name}】成功！");
+        return redirect('type');
     }
 }

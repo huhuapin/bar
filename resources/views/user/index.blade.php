@@ -44,7 +44,12 @@
 			</div>
 		</div> -->
 			<mt-header title="选择商品">
-				<a href=""  slot="right">
+				@if(Auth::user()->status > 0)
+				<a href="{{url('index')}}"  slot="left">
+					<mt-button icon="home">后台</mt-button>
+				</a>
+				@endif
+				<a href="{{url('mine')}}"  slot="right">
 				<mt-button icon="user">设置</mt-button>
 				</a>
 			</mt-header>

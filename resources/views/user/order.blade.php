@@ -271,7 +271,7 @@
                 loadDiscount: function () {
                     var _this = this
                     $.ajax({
-                        url: '{{url('discount')}}',
+                        url: '{{url('discountJson')}}',
                         type: 'get',
                         contentType: 'application/json',
                         dataType: 'json',

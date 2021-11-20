@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Discount;
+use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class DiscountController extends Controller
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,9 +16,9 @@ class DiscountController extends Controller
     public function index()
     {
         //
-        $discount = Discount::orderBy('discount','DESC')->get();
-        return view('admin/discount/list')->with([
-            'discounts'=>$discount
+        $users = User::all();
+        return view('admin/user/list')->with([
+            'users'=>$users
         ]);
     }
 
@@ -30,7 +30,7 @@ class DiscountController extends Controller
     public function create()
     {
         //
-        return view('admin/discount/add');
+        return view('admin/user/add');
     }
 
     /**
@@ -42,12 +42,17 @@ class DiscountController extends Controller
     public function store(Request $request)
     {
         //
-        Discount::create([
-            'discount'=>$request->discount,
-            'description'=>$request->description
-        ]);
-        $request->session()->flash('success','添加折扣成功！');
-        return redirect('discount');
+        $user = User::where('tel',$request->tel)->first();
+        if (!$user) {
+            $user = new User();
+        }
+        $user->tel = $request->tel;
+        $user->name = $request->name;
+        $user->password = $request->password;
+        $user->status = $request->status;
+        $user->save();
+        $request->session()->flash('success','添加人员成功！');
+        return redirect('user');
     }
 
     /**
@@ -67,13 +72,13 @@ class DiscountController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Discount $discount)
+    public function edit(User $user,Request $request)
     {
         //
-        return view('admin/discount/edit')->with([
-            'discount'=>$discount
-        ]);
-
+        $user->password = bcrypt('123456');
+        $user->save();
+        $request->session()->flash('success',"{$user->name}的密码已重置为123456");
+        return redirect()->back();
     }
 
     /**
@@ -83,27 +88,22 @@ class DiscountController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Discount $discount)
+    public function update(Request $request, $id)
     {
         //
-        $discount->discount = $request->discount;
-        $discount->description = $request->description;
-        $discount->save();
-        $request->session()->flash('success','修改折扣成功！');
-        return redirect('discount');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  User  $user
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Discount $discount,Request $request)
+    public function destroy(User $user,Request $request)
     {
         //
-        $discount->delete();
-        $request->session()->flash('success','删除折扣成功！');
-        return redirect('discount');
+        $user->delete();
+        $request->session()->flash('success',"用户{$user->name}已删除");
+        return redirect()->back();
     }
 }

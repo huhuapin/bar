@@ -62,7 +62,7 @@
                 <div class="col-sm-8" style="padding-right:0;">
                     <div class="ibox float-e-margins">
                         <div class="ibox-title" style="border-bottom:none;background:#fff;">
-                            <h5>往年数据</h5>
+                            <h5>一周数据</h5>
                         </div>
                         <div class="ibox-content" style="border-top:none;">
                             <div id="yesterday" style="height:217px;">

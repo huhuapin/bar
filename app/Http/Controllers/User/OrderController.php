@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Discount;
 use App\Goods;
 use App\Member;
 use App\Order;
@@ -187,5 +188,11 @@ class OrderController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function discount(){
+
+        $discount = Discount::orderBy('discount','DESC')->get();
+        return $discount;
     }
 }

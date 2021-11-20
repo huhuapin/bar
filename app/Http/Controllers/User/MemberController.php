@@ -4,9 +4,11 @@ namespace App\Http\Controllers\User;
 
 use App\Deposit;
 use App\Member;
+use App\Order;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class MemberController extends Controller
 {
@@ -125,8 +127,25 @@ class MemberController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Member $member,Request $request)
     {
         //
+        $member->delete();
+        $request->session()->flash('success','删除用户成功！');
+        return redirect('memberList');
+    }
+
+    public function list(){
+        $members = Member::all();
+        foreach ($members as $member) {
+            //按人查询
+            $orderInfo = DB::table('order')->where('member_id',$member->id)
+                ->selectRaw('COUNT(*) as count,SUM(`real_price`) as spend')->first();
+            $member->count = $orderInfo->count;
+            $member->spend = $orderInfo->spend;
+        }
+        return view('admin/member/list')->with([
+            'members'=>$members
+        ]);
     }
 }
