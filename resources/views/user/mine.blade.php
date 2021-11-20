@@ -130,7 +130,7 @@
         </mt-cell>
         <mt-cell title="我的会员" to="{{url('member')}}" is-link value="查看">
         </mt-cell>
-        <mt-cell title="新开会员" to="{{url('member/0/edit')}}" is-link value="+">
+        <mt-cell title="会员充值" to="{{url('member/0/edit')}}" is-link value="+">
         </mt-cell>
         <div class="logout">
             <a href="{{url('logout')}}">
